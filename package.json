@@ -1,0 +1,14 @@
+{
+  "name": "triptally",
+  "version": "1.0.0",
+  "description": "TripTally is a social platform designed to help users rate and share their travel experiences while discovering new places to explore",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ]
+}
