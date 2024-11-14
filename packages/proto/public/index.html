@@ -3,195 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adventure Category</title>
+    <title>Trip Tally</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
-    <link rel="stylesheet" href="/styles/reset.css" />
 </head>
 <body>
     <header>
         <h1>Trip Tally</h1>
-    </header>
+        <label for="dark-mode-toggle">
+          <input type="checkbox" id="dark-mode-toggle" autocomplete="off" />
+          Dark Mode
+        </label>
+      </header>
 
     <section class="content">
-        <article class="experience border-box">
-            <h2><a href="experience.html">Hiking Adventure
-            </a></h2>
-
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#location" />
-                </svg>
-                Location:</strong> <a href="location.html">Grand Canyon, USA</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#category" />
-                </svg>
-                Category:</strong> <a href="category.html">Adventure</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#rating" />
-                </svg>
-                Rating:</strong>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon half-star">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-            </p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#user" />
-                </svg>
-                User:</strong> <a href="profile.html">John Doe</a></p>
-            <p><strong>Reviews:</strong>
-            <ul>
+        <experience-mini>
+            <span slot="title"><a href="experience.html">Hiking Adventure</a></span>
+            <span slot="location"><a href="location.html">Grand Canyon, USA</a></span>
+            <span slot="category"><a href="category.html">Adventure</a></span>
+            <star-rating slot="rating" value="3.5"></star-rating>
+            <span slot="user"><a href="profile.html">John Doe</a></span>
+            <ul slot="reviews">
                 <li><a href="review.html">John Doe - "Challenging but worth it!"</a></li>
             </ul>
-            <p><a href="experience.html">Read more about Hiking Adventure</a></p>
-        </article>
+            <a slot="read-more" href="experience.html">Read more about Hiking Adventure</a>
+        </experience-mini>
 
-        <article class="experience border-box">
-            <h2><a href="experience2.html">Food Tasting Tour</a></h2>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#location" />
-                </svg>
-                Location:</strong> <a href="location2.html">Paris, France</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#category" />
-                </svg>
-                Category:</strong> <a href="category2.html">Cultural</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#rating" />
-                </svg>
-                Rating:</strong>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#star" />
-                </svg>
-            </p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#user" />
-                </svg>
-                Traveler:</strong> <a href="profile2.html">Jane Smith</a></p>
-            <p><strong>Reviews:</strong>
-            <ul>
+        <experience-mini>
+            <span slot="title"><a href="experience2.html">Food Tasting Tour</a></span>
+            <span slot="location"><a href="location2.html">Paris, France</a></span>
+            <span slot="category"><a href="category2.html">Cultural</a></span>
+            <star-rating slot="rating" value="4"></star-rating>
+            <span slot="user"><a href="profile2.html">Jane Smith</a></span>
+            <ul slot="reviews">
                 <li><a href="review2.html">Jane Smith - "Loved exploring Paris through food!"</a></li>
             </ul>
-            <p><a href="experience2.html">Read more about Food Tasting Tour</a></p>
-        </article>
+            <a slot="read-more" href="experience2.html">Read more about Food Tasting Tour</a>
+        </experience-mini>
 
-        <article class="experience border-box">
-            <h2><a href="experience3.html">Skydiving</a></h2>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#location" />
-                </svg>
-                Location:</strong> <a href="location3.html">Rocky Mountains, USA</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#category" />
-                </svg>
-                Category:</strong> <a href="category.html">Adventure</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#rating" />
-                </svg>
-                Rating:</strong>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon half-star">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-            </p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#user" />
-                </svg>
-                Traveler:</strong> <a href="profile2.html">Jane Smith</a></p>
-            <p><a href="experience3.html">Read more about Skydiving</a></p>
-        </article>
+        <experience-mini>
+            <span slot="title"><a href="experience3.html">Skydiving</a></span>
+            <span slot="location"><a href="location3.html">Rocky Mountains, USA</a></span>
+            <span slot="category"><a href="category.html">Adventure</a></span>
+            <star-rating slot="rating" value="4.5"></star-rating>
+            <span slot="user"><a href="profile2.html">Jane Smith</a></span>
+            <a slot="read-more" href="experience3.html">Read more about Skydiving</a>
+        </experience-mini>
 
-        <article class="experience border-box">
-            <h2><a href="experience4.html">Mountain Biking Adventure</a></h2>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#location" />
-                </svg>
-                Location:</strong> <a href="location3.html">Rocky Mountains, USA</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#category" />
-                </svg>
-                Category:</strong> <a href="category.html">Adventure</a></p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#rating" />
-                </svg>
-                Rating:</strong>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-                <svg class="icon half-star gold">
-                    <use href="/icons/sprite.svg#starfill" />
-                </svg>
-            </p>
-            <p><strong>
-                <svg class="icon">
-                    <use href="/icons/sprite.svg#user" />
-                </svg>
-                Traveler:</strong> <a href="profile3.html">Michael Lee</a></p>
-            <p><a href="experience4.html">Read more about Mountain Biking Adventure</a></p>
-        </article>
+        <experience-mini>
+            <span slot="title"><a href="experience4.html">Mountain Biking Adventure</a></span>
+            <span slot="location"><a href="location3.html">Rocky Mountains, USA</a></span>
+            <span slot="category"><a href="category.html">Adventure</a></span>
+            <star-rating slot="rating" value="4.5"></star-rating>
+            <span slot="user"><a href="profile3.html">Michael Lee</a></span>
+            <a slot="read-more" href="experience4.html">Read more about Mountain Biking Adventure</a>
+        </experience-mini>
     </section>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+            }
+        }
+    </script>
+    <script src="/scripts/dark-mode.js" type="module"></script>
+    <script type="module">
+        import { define } from "@calpoly/mustang";
+        import { ExperienceMini } from "/scripts/experience_mini.js";
+        import { Stars } from "/scripts/stars.js";
+
+        define({
+            "experience-mini": ExperienceMini,
+        });
+        define({
+            "star-rating": Stars,
+        });
+    </script>
 </body>
 </html>
