@@ -10,6 +10,17 @@ const ExperienceSchema = new Schema<Experience>(
     rating: { type: Number, required: true },
     user: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
+
+    detailPage: { type: String, trim: true },
+    locationPage: { type: String, trim: true },
+    categoryPage: { type: String, trim: true },
+    userPage: { type: String, trim: true },
+    reviews: [
+      {
+        text: { type: String, required: true },
+        link: { type: String, trim: true },
+      },
+    ],
   },
   { collection: "experiences" }
 );

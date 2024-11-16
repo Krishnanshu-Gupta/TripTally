@@ -6,7 +6,7 @@ export class ExperienceMini extends HTMLElement {
     <template>
       <article class="experience border-box">
         <h2>
-          <a href="#"><slot name="title">Experience Title</slot></a>
+          <a><slot name="title">Experience Title</slot></a>
         </h2>
         <p>
           <strong>
@@ -15,7 +15,7 @@ export class ExperienceMini extends HTMLElement {
             </svg>
             Location:
           </strong>
-          <a href="#"><slot name="location">Location</slot></a>
+          <a><slot name="location">Location</slot></a>
         </p>
         <p>
           <strong>
@@ -24,7 +24,7 @@ export class ExperienceMini extends HTMLElement {
             </svg>
             Category:
           </strong>
-          <a href="#"><slot name="category">Category</slot></a>
+          <a><slot name="category">Category</slot></a>
         </p>
         <p>
           <strong>
@@ -42,7 +42,7 @@ export class ExperienceMini extends HTMLElement {
             </svg>
             User:
           </strong>
-          <a href="#"><slot name="user">User Name</slot></a>
+          <a><slot name="user">User Name</slot></a>
         </p>
         <div class="reviews-container" hidden>
           <p><strong>Reviews:</strong></p>
@@ -51,7 +51,7 @@ export class ExperienceMini extends HTMLElement {
           </ul>
         </div>
         <p>
-          <a href="#"><slot name="read-more">Read more</slot></a>
+          <a><slot name="read-more">Read more</slot></a>
         </p>
       </article>
     </template>
@@ -63,7 +63,6 @@ export class ExperienceMini extends HTMLElement {
       border-radius: 5px;
       padding: 1em;
       background-color: var(--experience-box-color);
-
     }
 
     h2 {
@@ -109,14 +108,74 @@ export class ExperienceMini extends HTMLElement {
       .styles(reset.styles, ExperienceMini.styles);
   }
 
+  get src() {
+    return this.getAttribute("src");
+  }
+
   connectedCallback() {
+    if (this.src) {
+      this.hydrate(this.src);
+    }
+  }
+
+  hydrate(url) {
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+        return res.json();
+      })
+      .then((data) => this.renderSlots(data))
+      .catch((error) =>
+        console.error(`Failed to load data from ${url}:`, error)
+      );
+  }
+
+  renderSlots(data) {
+    const elements = {
+        title: `<a href="${data.detailPage}">${data.title}</a>`,
+        location: `<a href="${data.locationPage}">${data.location}</a>`,
+        category: `<a href="${data.categoryPage}">${data.category}</a>`,
+        user: `<a href="${data.userPage}">${data.user}</a>`,
+        "read-more": `<a href="${data.detailPage}">Read more</a>`,
+    };
+    for (const [slotName, content] of Object.entries(elements)) {
+        const slotElement = this.shadowRoot.querySelector(`slot[name="${slotName}"]`);
+        if (slotElement) {
+            const wrapper = document.createElement("span");
+            wrapper.innerHTML = content;
+            wrapper.slot = slotName;
+            this.appendChild(wrapper);
+        }
+    }
+    const ratingSlot = this.shadowRoot.querySelector(`slot[name="rating"]`);
+    if (ratingSlot) {
+        const starRating = document.createElement("star-rating");
+        starRating.setAttribute("value", data.rating.toFixed(1));
+        starRating.slot = "rating";
+        this.appendChild(starRating);
+    }
+
+    if (data.reviews?.length) {
+        const reviewsList = document.createElement("ul");
+        reviewsList.slot = "reviews";
+
+        data.reviews.forEach((review) => {
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = review.link;
+            link.textContent = review.text;
+            listItem.appendChild(link);
+            reviewsList.appendChild(listItem);
+        });
+
+        this.appendChild(reviewsList);
+    }
     this.toggleReviewsVisibility();
   }
 
   toggleReviewsVisibility() {
     const reviewsSlot = this.shadowRoot.querySelector('slot[name="reviews"]');
     const reviewsContainer = this.shadowRoot.querySelector(".reviews-container");
-
     reviewsContainer.hidden = reviewsSlot.assignedNodes().length === 0;
   }
 }

@@ -3,8 +3,6 @@ TripTally is a social platform designed to help users rate and share their trave
 
 
 TO DO
-- dark mode doesn't work on all the extra sub files away from index.html
-
 - build components for all the types: category, experience, location, profile, review, and get data from there
     - use the stars component for starring stuff
     - could use experience-mini as a framework for some of the other elements
