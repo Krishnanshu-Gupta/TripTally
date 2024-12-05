@@ -9,7 +9,6 @@ body {
   line-height: 1.5;
   background-color: var(--secondary-color);
   color: var(--text-color);
-  padding: 20px;
 }
 
 header {
@@ -49,6 +48,7 @@ input[type="checkbox"] {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  padding: 20px;
   margin-top: 20px;
 }
 

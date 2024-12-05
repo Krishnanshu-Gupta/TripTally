@@ -15,12 +15,9 @@
   --space-sm: 10px;
   --space-md: 20px;
   --space-lg: 40px;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  font-family: var(--font-secondary);
+  --input-background: #ffffff;
+  --input-border: #ccc;
+  --input-text: #333;
 }
 
 body.dark-mode {
@@ -30,6 +27,16 @@ body.dark-mode {
   --text-color: #e0e0e0;
   --primary-color: #90caf9;
   --accent-color: #ffd54f;
+
+  --input-background: #373636;
+  --input-border: #555;
+  --input-text: #f0f0f0;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--font-secondary);
 }
 
 header {

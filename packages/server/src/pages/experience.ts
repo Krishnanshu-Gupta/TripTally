@@ -18,7 +18,7 @@ export class ExperiencePage {
   }
 
   renderBody() {
-    const { title, category, location, rating, user, description } = this.data;
+    const { id, title, category, location, rating, user, description } = this.data;
 
     return html`
       <header>

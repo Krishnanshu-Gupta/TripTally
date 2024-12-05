@@ -25,15 +25,36 @@ var import_express = __toESM(require("express"));
 var import_experience_svc = __toESM(require("./services/experience-svc"));
 var import_experience = require("./pages/experience");
 var import_experiences = __toESM(require("./routes/experiences"));
+var import_reviews = __toESM(require("./routes/reviews"));
 var import_mongo = require("./services/mongo");
+var import_auth = __toESM(require("./routes/auth"));
+var import_pages = require("./pages/index");
+var import_promises = __toESM(require("fs/promises"));
+var import_path = __toESM(require("path"));
 (0, import_mongo.connect)("experience");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
-console.log("Serving static files from ", staticDir);
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
+app.use("/api/auth", import_auth.default);
+app.get("/login", (req, res) => {
+  const page = new import_pages.LoginPage();
+  res.set("Content-Type", "text/html").send((0, import_pages.renderPage)(import_pages.LoginPage.render()));
+});
+app.get("/register", (req, res) => {
+  const page = new import_pages.RegistrationPage();
+  res.set("Content-Type", "text/html").send((0, import_pages.renderPage)(import_pages.RegistrationPage.render()));
+});
+app.use("/app", (req, res) => {
+  const indexHtml = import_path.default.resolve(staticDir, "index.html");
+  import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then((html) => res.send(html)).catch((err) => {
+    console.error("Error reading index.html:", err);
+    res.status(500).send("Server error");
+  });
+});
 app.use("/api/experiences", import_experiences.default);
+app.use("/api/reviews", import_reviews.default);
 app.get("/experience/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -45,6 +66,7 @@ app.get("/experience/:id", async (req, res) => {
     const page = new import_experience.ExperiencePage(data);
     res.set("Content-Type", "text/html").send(page.render());
   } catch (error) {
+    console.error("Error rendering experience page:", error);
     res.status(500).send("Server error");
   }
 });

@@ -12,7 +12,7 @@ const styles = css`
     line-height: 1.5;
     background-color: var(--secondary-color);
     color: var(--text-color);
-    padding: 20px;
+    padding: 10px;
   }
 
   .header-content {

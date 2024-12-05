@@ -46,7 +46,7 @@ class ExperiencePage {
     });
   }
   renderBody() {
-    const { title, category, location, rating, user, description } = this.data;
+    const { id, title, category, location, rating, user, description } = this.data;
     return import_server.html`
       <header>
         <h1>${title}</h1>
