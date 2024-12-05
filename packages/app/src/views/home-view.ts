@@ -74,7 +74,7 @@ export class HomeViewElement extends LitElement {
     this.updateFilters();
   }
 
-  addExperience(event: InputEvent){
+  addExperience(_event: InputEvent){
     window.history.pushState({}, "", `/app/add-experience`);
     window.dispatchEvent(new Event("popstate"));
   }

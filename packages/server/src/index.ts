@@ -38,7 +38,6 @@ app.get("/register", (req: Request, res: Response) => {
   res.set("Content-Type", "text/html").send(renderPage(RegistrationPage.render()));
 });
 
-// Catch-all route for the single-page application
 app.use("/app", (req, res) => {
   const indexHtml = path.resolve(staticDir, "index.html");
   fs.readFile(indexHtml, { encoding: "utf8" })

@@ -35,7 +35,7 @@ export class Stars extends HTMLElement {
     return ["value"];
   }
 
-  attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
+  attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
     if (name === "value") {
       this.renderStars(parseFloat(newValue || "0"));
     }
