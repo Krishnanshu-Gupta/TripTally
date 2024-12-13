@@ -1,7 +1,7 @@
 import { css } from "@calpoly/mustang";
 
 const styles = css`
-* {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -38,29 +38,29 @@ const styles = css`
     padding: 20px;
     background-color: var(--color-primary);
     color: white;
- }
+  }
 
-    h1 {
-        margin: 0;
-    }
+  h1 {
+    margin: 0;
+  }
 
-    nav {
-        display: flex;
-        align-items: center;
-    }
+  nav {
+    display: flex;
+    align-items: center;
+  }
 
-    .dark-mode-toggle {
+  .dark-mode-toggle {
     font-size: 1rem;
     color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
-}
+  }
 
-.dark-mode-toggle input {
+  .dark-mode-toggle input {
     margin-right: 8px;
     cursor: pointer;
-}
+  }
 
   /* Experience Section */
   .content {

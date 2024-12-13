@@ -33,7 +33,7 @@ export class RegistrationPageElement extends LitElement {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.href = "/login"; // Redirect to the login page
+          window.location.href = "/login";
         } else {
           throw new Error("Failed to register");
         }
@@ -92,7 +92,6 @@ export class RegistrationPageElement extends LitElement {
   }
 
   static styles = css`
-    /* Add your CSS styles here */
     .register-page {
       display: flex;
       justify-content: center;

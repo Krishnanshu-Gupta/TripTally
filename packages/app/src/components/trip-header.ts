@@ -1,12 +1,10 @@
-import { LitElement, css, html } from "lit";
+import { css, html } from "lit";
 import { state } from "lit/decorators.js";
-import { define, Auth, Observer, Events, Dropdown, View } from "@calpoly/mustang";
+import { define, Dropdown, View } from "@calpoly/mustang";
 import { Msg } from "../messages";
 import { Model } from "../model";
 
 export class TripHeaderElement extends View<Model, Msg> {
-  private _authObserver = new Observer<Auth.Model>(this, "blazing:auth");
-
   static uses = define({
     "drop-down": Dropdown.Element,
   });
@@ -30,55 +28,52 @@ export class TripHeaderElement extends View<Model, Msg> {
 
   connectedCallback() {
     super.connectedCallback();
-
-    // Read dark mode preference from localStorage
     const savedDarkMode = localStorage.getItem("darkMode") === "true";
-    console.log("Saved dark mode state:", savedDarkMode);
 
-    // Apply dark mode and synchronize with global state if needed
     if (savedDarkMode !== this.model.darkMode) {
-      console.log("Initializing dark mode:", savedDarkMode);
       this.darkMode = savedDarkMode;
-      this.applyDarkMode(savedDarkMode); // Apply dark mode directly
-      this.dispatchMessage(["dark-mode/toggle", { enabled: savedDarkMode }]); // Synchronize global state
+      this.applyDarkMode(savedDarkMode);
+      this.dispatchMessage(["dark-mode/toggle", { enabled: savedDarkMode }]);
     }
   }
 
   applyDarkMode(isDarkMode: boolean) {
     if (isDarkMode) {
       document.body.classList.add("dark-mode");
-      this.shadowRoot.querySelector(".menu-icon")?.classList.add("dark-mode");
+      this.shadowRoot?.querySelector(".menu-icon")?.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
-      this.shadowRoot.querySelector(".menu-icon")?.classList.remove("dark-mode");
+      this.shadowRoot
+        ?.querySelector(".menu-icon")
+        ?.classList.remove("dark-mode");
     }
   }
 
   toggleDarkMode(event?: InputEvent) {
-    let isDarkMode = this.darkMode; // Default to the current dark mode state
+    let isDarkMode = this.darkMode;
 
     if (event) {
-      // Update based on user input
       const target = event.target as HTMLInputElement;
       isDarkMode = target.checked;
     }
 
     this.darkMode = isDarkMode;
-    console.log("Toggling dark mode:", this.darkMode);
 
-    // Apply or remove the dark mode class
     if (this.darkMode) {
       document.body.classList.add("dark-mode");
-      this.shadowRoot.querySelector(".menu-icon")?.classList.add("dark-mode");
+      const menuIcon = this.shadowRoot?.querySelector(".menu-icon");
+      if (menuIcon) {
+        menuIcon.classList.add("dark-mode");
+      }
     } else {
       document.body.classList.remove("dark-mode");
-      this.shadowRoot.querySelector(".menu-icon")?.classList.remove("dark-mode");
+      this.shadowRoot
+        ?.querySelector(".menu-icon")
+        ?.classList.remove("dark-mode");
     }
 
-    // Dispatch a message to update global state
     this.dispatchMessage(["dark-mode/toggle", { enabled: this.darkMode }]);
 
-    // Save preference to localStorage
     localStorage.setItem("darkMode", String(this.darkMode));
   }
 
@@ -90,7 +85,9 @@ export class TripHeaderElement extends View<Model, Msg> {
 
   handleNavigation(event: MouseEvent) {
     event.preventDefault();
-    const href = (event.currentTarget as HTMLAnchorElement).getAttribute("href");
+    const href = (event.currentTarget as HTMLAnchorElement).getAttribute(
+      "href"
+    );
     if (href) {
       window.dispatchEvent(
         new CustomEvent("blazing:history", { detail: { path: href } })
@@ -112,7 +109,11 @@ export class TripHeaderElement extends View<Model, Msg> {
           </a>
           <drop-down>
             <button slot="actuator" class="menu-icon" aria-label="Menu">
-              <img src="/assets/menu.svg" alt="Menu Icon" class="menu-icon-svg" />
+              <img
+                src="/assets/menu.svg"
+                alt="Menu Icon"
+                class="menu-icon-svg"
+              />
             </button>
             <div class="dropdown-content">
               <label class="dark-mode-switch">
@@ -128,9 +129,7 @@ export class TripHeaderElement extends View<Model, Msg> {
                 Profile
               </a>
               ${this.isAuthenticated
-                ? html`
-                    <a @click=${this.handleSignOut}>Sign Out</a>
-                  `
+                ? html` <a @click=${this.handleSignOut}>Sign Out</a> `
                 : html`
                     <a href="/app/auth" @click=${this.handleNavigation}>
                       Sign In
@@ -152,7 +151,7 @@ export class TripHeaderElement extends View<Model, Msg> {
       background-color: var(--primary-color);
       color: var(--background-color);
       box-shadow: var(--box-shadow);
-      height: 3.0rem; /* Reduced height */
+      height: 3rem;
       padding: 20px 40px;
     }
 
@@ -201,7 +200,7 @@ export class TripHeaderElement extends View<Model, Msg> {
       flex-direction: column;
       gap: 0.5rem;
       min-width: 150px;
-      z-index: 100; /* Ensure it's above other elements */
+      z-index: 100;
     }
 
     .dropdown-content label {
@@ -231,13 +230,13 @@ export class TripHeaderElement extends View<Model, Msg> {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 40px; /* Adjust as needed */
-      height: 40px; /* Adjust as needed */
+      width: 40px;
+      height: 40px;
       background: none;
-      border: none; /* Ensures no border */
-      border-radius: 5px; /* Rounded edges for the box */
-      padding: 4px; /* Space around the icon */
-      filter: invert(1); /* Inverts the icon color */
+      border: none;
+      border-radius: 5px;
+      padding: 4px;
+      filter: invert(1);
     }
 
     .menu-icon.dark-mode {
@@ -251,7 +250,7 @@ export class TripHeaderElement extends View<Model, Msg> {
     }
 
     .menu-icon:hover .menu-icon-svg {
-      filter: brightness(1.2); /* Adds a subtle hover effect */
+      filter: brightness(1.2);
     }
   `;
 }

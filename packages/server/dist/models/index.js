@@ -18,9 +18,11 @@ module.exports = __toCommonJS(models_exports);
 __reExport(models_exports, require("./experience"), module.exports);
 __reExport(models_exports, require("./credential"), module.exports);
 __reExport(models_exports, require("./review"), module.exports);
+__reExport(models_exports, require("./save"), module.exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ...require("./experience"),
   ...require("./credential"),
-  ...require("./review")
+  ...require("./review"),
+  ...require("./save")
 });

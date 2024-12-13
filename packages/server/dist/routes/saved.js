@@ -26,29 +26,39 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var mongo_exports = {};
-__export(mongo_exports, {
-  connect: () => connect
+var saved_exports = {};
+__export(saved_exports, {
+  default: () => saved_default
 });
-module.exports = __toCommonJS(mongo_exports);
-var import_mongoose = __toESM(require("mongoose"));
-var import_dotenv = __toESM(require("dotenv"));
-import_mongoose.default.set("debug", true);
-import_dotenv.default.config();
-function getMongoURI(dbname) {
-  let connection_string = `mongodb://localhost:27017/${dbname}`;
-  const { MONGO_USER, MONGO_PWD, MONGO_CLUSTER } = process.env;
-  if (MONGO_USER && MONGO_PWD && MONGO_CLUSTER) {
-    connection_string = `mongodb+srv://${MONGO_USER}:${MONGO_PWD}@${MONGO_CLUSTER}/${dbname}?retryWrites=true&w=majority`;
-  } else {
-    console.log("Connecting to MongoDB at ", connection_string);
+module.exports = __toCommonJS(saved_exports);
+var import_express = __toESM(require("express"));
+var import_save_svc = __toESM(require("../services/save-svc"));
+const router = import_express.default.Router();
+router.get("/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const savedExperiences = await import_save_svc.default.getSavedForUser(userId);
+    res.status(200).json(savedExperiences);
+  } catch (err) {
+    res.status(500).json({ error: `Error fetching saved experiences: ${err}` });
   }
-  return connection_string;
-}
-function connect(dbname) {
-  import_mongoose.default.connect(getMongoURI(dbname)).catch((error) => console.log(error));
-}
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  connect
 });
+router.post("/:userId", (req, res) => {
+  const { userId } = req.params;
+  const { experienceId } = req.body;
+  import_save_svc.default.addSavedExperience(userId, experienceId).then(
+    () => res.status(201).json({ message: "Experience saved successfully" })
+  ).catch(
+    (err) => res.status(500).json({ error: `Error saving experience: ${err}` })
+  );
+});
+router.delete("/:userId", (req, res) => {
+  const { userId } = req.params;
+  const { experienceId } = req.body;
+  import_save_svc.default.removeSavedExperience(userId, experienceId).then(
+    () => res.status(200).json({ message: "Experience removed successfully" })
+  ).catch(
+    (err) => res.status(500).json({ error: `Error removing experience: ${err}` })
+  );
+});
+var saved_default = router;

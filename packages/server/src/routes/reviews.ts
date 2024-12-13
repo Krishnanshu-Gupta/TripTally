@@ -4,24 +4,29 @@ import { Review } from "../models/review";
 
 const router = express.Router();
 
-/**
- * Get all reviews for a specific experience.
- * Route: GET /reviews/:experienceId
- */
-router.get("/:experienceId", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   try {
-    const { experienceId } = req.params;
-    const reviews: Review[] = await Reviews.getReviewsForExperience(experienceId);
-    res.status(200).json(reviews);
-  } catch (err) {
-    res.status(500).json({ error: `Error fetching reviews for experience: ${err}` });
+    const reviews = await Reviews.getReviews();
+    res.json(reviews);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get reviews" });
   }
 });
 
-/**
- * Get a single review by its ID.
- * Route: GET /reviews/review/:reviewId
- */
+router.get("/:experienceId", async (req: Request, res: Response) => {
+  try {
+    const { experienceId } = req.params;
+    const reviews: Review[] = await Reviews.getReviewsForExperience(
+      experienceId
+    );
+    res.status(200).json(reviews);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: `Error fetching reviews for experience: ${err}` });
+  }
+});
+
 router.get("/review/:reviewId", async (req: Request, res: Response) => {
   try {
     const { reviewId } = req.params;
@@ -32,10 +37,6 @@ router.get("/review/:reviewId", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * Create a new review for an experience.
- * Route: POST /reviews
- */
 router.post("/", async (req: Request, res: Response) => {
   try {
     const newReview: Partial<Review> = req.body;
@@ -46,10 +47,6 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * Update an existing review by ID.
- * Route: PUT /reviews/:reviewId
- */
 router.put("/:reviewId", async (req: Request, res: Response) => {
   try {
     const { reviewId } = req.params;
@@ -61,14 +58,11 @@ router.put("/:reviewId", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * Delete a review by ID.
- * Route: DELETE /reviews/:reviewId
- */
 router.delete("/:reviewId", async (req: Request, res: Response) => {
   try {
     const { reviewId } = req.params;
     await Reviews.deleteReview(reviewId);
+
     res.status(204).end();
   } catch (err) {
     res.status(404).json({ error: `Error deleting review: ${err}` });

@@ -1,9 +1,5 @@
 import dotenv from "dotenv";
-import express, {
-  NextFunction,
-  Request,
-  Response
-} from "express";
+import express, { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import credentials from "../services/credential-svc";
@@ -11,13 +7,9 @@ import credentials from "../services/credential-svc";
 const router = express.Router();
 
 dotenv.config();
-const TOKEN_SECRET: string =
-  process.env.TOKEN_SECRET || "NOT_A_SECRET";
+const TOKEN_SECRET: string = process.env.TOKEN_SECRET || "NOT_A_SECRET";
 
-function generateAccessToken(
-  username: string
-): Promise<String> {
-  console.log("Generating token for", username);
+function generateAccessToken(username: string): Promise<String> {
   return new Promise((resolve, reject) => {
     jwt.sign(
       { username: username },
@@ -26,7 +18,6 @@ function generateAccessToken(
       (error, token) => {
         if (error) reject(error);
         else {
-          console.log("Token is", token);
           resolve(token as string);
         }
       }
@@ -35,29 +26,28 @@ function generateAccessToken(
 }
 
 router.post("/register", (req: Request, res: Response) => {
-  console.log("hello")
-  const { username, name, password } = req.body; // from form
+  const { username, name, password } = req.body;
 
   if (!username || !name || !password) {
     res.status(400).send("Bad request: Invalid input data.");
   } else {
-    credentials
-      .create(username, name, password)
-      .then((creds) =>
-        generateAccessToken(creds.username).then((token) => ({
+    credentials.create(username, name, password).then((creds) =>
+      generateAccessToken(creds.username)
+        .then((token) => ({
           token,
           id: creds._id,
           username: creds.username,
           name: creds.name,
         }))
-      .then((response) => {
-        res.status(201).send(response);
-      }));
+        .then((response) => {
+          res.status(201).send(response);
+        })
+    );
   }
 });
 
 router.post("/login", (req: Request, res: Response) => {
-  const { username, password } = req.body; // from form
+  const { username, password } = req.body;
 
   if (!username || !password) {
     res.status(400).send("Bad request: Invalid input data.");
@@ -69,8 +59,9 @@ router.post("/login", (req: Request, res: Response) => {
           token,
           id: creds._id,
           username: creds.username,
-          name: creds.name
-        })))
+          name: creds.name,
+        }))
+      )
       .then((response) => res.status(200).send(response))
       .catch(() => res.status(401).send("Unauthorized"));
   }
@@ -82,7 +73,6 @@ export function authenticateUser(
   next: NextFunction
 ) {
   const authHeader = req.headers["authorization"];
-  //Getting the 2nd part of the auth header (the token)
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {

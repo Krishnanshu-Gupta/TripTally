@@ -40,7 +40,6 @@ const router = import_express.default.Router();
 import_dotenv.default.config();
 const TOKEN_SECRET = process.env.TOKEN_SECRET || "NOT_A_SECRET";
 function generateAccessToken(username) {
-  console.log("Generating token for", username);
   return new Promise((resolve, reject) => {
     import_jsonwebtoken.default.sign(
       { username },
@@ -49,7 +48,6 @@ function generateAccessToken(username) {
       (error, token) => {
         if (error) reject(error);
         else {
-          console.log("Token is", token);
           resolve(token);
         }
       }
@@ -57,19 +55,20 @@ function generateAccessToken(username) {
   });
 }
 router.post("/register", (req, res) => {
-  console.log("hello");
   const { username, name, password } = req.body;
   if (!username || !name || !password) {
     res.status(400).send("Bad request: Invalid input data.");
   } else {
-    import_credential_svc.default.create(username, name, password).then((creds) => generateAccessToken(creds.username).then((token) => ({
-      token,
-      id: creds._id,
-      username: creds.username,
-      name: creds.name
-    })).then((response) => {
-      res.status(201).send(response);
-    }));
+    import_credential_svc.default.create(username, name, password).then(
+      (creds) => generateAccessToken(creds.username).then((token) => ({
+        token,
+        id: creds._id,
+        username: creds.username,
+        name: creds.name
+      })).then((response) => {
+        res.status(201).send(response);
+      })
+    );
   }
 });
 router.post("/login", (req, res) => {
@@ -77,12 +76,14 @@ router.post("/login", (req, res) => {
   if (!username || !password) {
     res.status(400).send("Bad request: Invalid input data.");
   } else {
-    import_credential_svc.default.verify(username, password).then((creds) => generateAccessToken(creds.username).then((token) => ({
-      token,
-      id: creds._id,
-      username: creds.username,
-      name: creds.name
-    }))).then((response) => res.status(200).send(response)).catch(() => res.status(401).send("Unauthorized"));
+    import_credential_svc.default.verify(username, password).then(
+      (creds) => generateAccessToken(creds.username).then((token) => ({
+        token,
+        id: creds._id,
+        username: creds.username,
+        name: creds.name
+      }))
+    ).then((response) => res.status(200).send(response)).catch(() => res.status(401).send("Unauthorized"));
   }
 });
 function authenticateUser(req, res, next) {

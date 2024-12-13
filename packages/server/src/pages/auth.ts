@@ -1,6 +1,6 @@
 const staticParts = {
-    styles: [
-      `
+  styles: [
+    `
       article {
         display: flex;
         flex-direction: column;
@@ -175,17 +175,16 @@ const staticParts = {
         background-color: var(--background-color);
         color: var(--primary-color);
       }
-      `
-    ]
-  };
+      `,
+  ],
+};
 
-
-  export class LoginPage {
-    static render() {
-      return {
-        ...staticParts,
-        scripts: [
-          `
+export class LoginPage {
+  static render() {
+    return {
+      ...staticParts,
+      scripts: [
+        `
           import { define, Auth } from "@calpoly/mustang";
           import { LoginForm } from "/scripts/login-form.js";
           import { RegistrationForm } from "/scripts/registration-form.js";
@@ -195,9 +194,9 @@ const staticParts = {
             "login-form": LoginForm,
             "registration-form": RegistrationForm,
           })
-          `
-        ],
-        body: `<body>
+          `,
+      ],
+      body: `<body>
           <mu-auth provides="blazing:auth">
             <article>
               <blz-header></blz-header>
@@ -219,16 +218,16 @@ const staticParts = {
               </main>
             </article>
           </mu-auth>
-        </body>`
-      };
-    }
+        </body>`,
+    };
   }
+}
 
-  export class RegistrationPage {
-    static render() {
-      return {
-        styles: [
-          `
+export class RegistrationPage {
+  static render() {
+    return {
+      styles: [
+        `
           article {
             display: flex;
             flex-direction: column;
@@ -403,10 +402,10 @@ const staticParts = {
           body.dark-mode .form_container input:focus {
             background-color: var(--experience-box-color);
           }
-          `
-        ],
-        scripts: [
-          `
+          `,
+      ],
+      scripts: [
+        `
           import { define, Auth } from "@calpoly/mustang";
           import { RegistrationForm } from "/scripts/registration-form.js";
 
@@ -414,9 +413,9 @@ const staticParts = {
             "mu-auth": Auth.Provider,
             "registration-form": RegistrationForm
           })
-          `
-        ],
-        body: `<body>
+          `,
+      ],
+      body: `<body>
           <mu-auth provides="blazing:auth">
             <article>
               <blz-header></blz-header>
@@ -438,7 +437,7 @@ const staticParts = {
               </main>
             </article>
           </mu-auth>
-        </body>`
-      };
-    }
+        </body>`,
+    };
   }
+}

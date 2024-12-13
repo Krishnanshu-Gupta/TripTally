@@ -12,7 +12,14 @@
   "description": "",
   "dependencies": {
     "@calpoly/mustang": "^1.0.15",
+    "@mapbox/mapbox-sdk": "^0.16.1",
+    "dotenv": "^16.4.7",
     "lit": "^3.2.1",
+    "mapbox-gl": "^3.8.0",
     "server": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/mapbox__mapbox-sdk": "^0.16.0",
+    "@types/mapbox-gl": "^3.4.1"
   }
 }

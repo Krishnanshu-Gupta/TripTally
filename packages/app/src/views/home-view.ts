@@ -48,9 +48,10 @@ export class HomeViewElement extends LitElement {
 
   updateFilters() {
     const query = this.searchQuery.toLowerCase();
-    let filtered = this.experiences.filter((experience) =>
-      experience.title.toLowerCase().includes(query) ||
-      experience.location.toLowerCase().includes(query) // Add location filtering
+    let filtered = this.experiences.filter(
+      (experience) =>
+        experience.title.toLowerCase().includes(query) ||
+        experience.location.toLowerCase().includes(query)
     );
 
     filtered.sort((a, b) => {
@@ -74,7 +75,7 @@ export class HomeViewElement extends LitElement {
     this.updateFilters();
   }
 
-  addExperience(_event: InputEvent){
+  addExperience(_event: InputEvent) {
     window.history.pushState({}, "", `/app/add-experience`);
     window.dispatchEvent(new Event("popstate"));
   }
@@ -89,7 +90,7 @@ export class HomeViewElement extends LitElement {
       </div>
     `;
   }
-
+  
   render() {
     return html`
       <main class="home-container">
@@ -100,8 +101,8 @@ export class HomeViewElement extends LitElement {
                 Discover Your <span class="highlight"> Next Adventure</span>
               </h1>
               <p>
-                Explore unforgettable travel experiences, share your adventures, and
-                inspire others to uncover the beauty of the world.
+                Explore unforgettable travel experiences, share your adventures,
+                and inspire others to uncover the beauty of the world.
               </p>
               <div class="search-bar">
                 <input
@@ -113,7 +114,13 @@ export class HomeViewElement extends LitElement {
                 />
                 <button>
                   <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#ffffff">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      fill="#ffffff"
+                    >
                       <path
                         d="M10 2a8 8 0 105.27 14.32l4.6 4.6a1 1 0 001.41-1.41l-4.6-4.6A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"
                       />
@@ -123,7 +130,11 @@ export class HomeViewElement extends LitElement {
               </div>
               <div class="filter-bar">
                 <label for="sort">Sort By:</label>
-                <select id="sort" class="sort-dropdown" @change=${this.handleRankChange}>
+                <select
+                  id="sort"
+                  class="sort-dropdown"
+                  @change=${this.handleRankChange}
+                >
                   <option value="rating">Rating</option>
                   <option value="title">Title</option>
                 </select>
@@ -131,22 +142,25 @@ export class HomeViewElement extends LitElement {
             </div>
           </div>
           <div class="image-grid">
-            <img src="../assets/hero/adventure.jpg" alt="Adventure Destination" />
-            <img src="../assets/hero/luxury2.jpg" alt="Beach Getaway"  />
+            <img
+              src="../assets/hero/adventure.jpg"
+              alt="Adventure Destination"
+            />
+            <img src="../assets/hero/luxury2.jpg" alt="Beach Getaway" />
             <img src="../assets/hero/temple2.jpg" alt="Culinary Experience" />
             <img src="../assets/hero/food.jpg" alt="Waterfall Adventure" />
             <img src="../assets/hero/nature.jpg" alt="Culinary Delights" />
           </div>
         </section>
         <div>
-          <button class="add-experience-button" @click=${this.addExperience}>+</button>
+          <button class="add-experience-button" @click=${this.addExperience}>
+            +
+          </button>
           <div class="tooltip">Add an Experience</div>
         </div>
         <section class="experience-list">
           <p>Explore the most highly rated experiences from around the world</p>
-          <div class="experience-cards">
-            ${this.renderExperienceCards()}
-          </div>
+          <div class="experience-cards">${this.renderExperienceCards()}</div>
         </section>
       </main>
     `;
@@ -166,13 +180,13 @@ export class HomeViewElement extends LitElement {
         padding: var(--space-lg) 20px;
         max-width: 1200px;
         margin: 0 auto;
-        display:
+        display: ;
       }
 
       /* Hero Section */
       .hero {
         display: grid;
-        grid-template-columns: calc(50% - .75rem) calc(50% - .75rem);
+        grid-template-columns: calc(50% - 0.75rem) calc(50% - 0.75rem);
         justify-content: space-between;
         align-items: flex-start;
         gap: 2rem;
@@ -346,7 +360,12 @@ export class HomeViewElement extends LitElement {
         position: absolute;
         bottom: 4.5rem; /* Adjust this to position above the button */
         right: 0; /* Align with the button */
-        background-color: rgba(0, 0, 0, 0.8); /* Dark background for the tooltip */
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.8
+        ); /* Dark background for the tooltip */
         color: white;
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;

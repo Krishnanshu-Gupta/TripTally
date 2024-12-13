@@ -64,8 +64,14 @@ class ExperiencePage {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
     const stars = import_server.html`
-      ${Array(fullStars).fill(0).map(() => import_server.html`<svg class="icon gold"><use href="/icons/sprite.svg#starfill"></use></svg>`)}
-      ${halfStar ? import_server.html`<svg class="icon half-star"><use href="/icons/sprite.svg#starfill"></use></svg>` : ""}
+      ${Array(fullStars).fill(0).map(
+      () => import_server.html`<svg class="icon gold">
+              <use href="/icons/sprite.svg#starfill"></use>
+            </svg>`
+    )}
+      ${halfStar ? import_server.html`<svg class="icon half-star">
+            <use href="/icons/sprite.svg#starfill"></use>
+          </svg>` : ""}
     `;
     return stars;
   }

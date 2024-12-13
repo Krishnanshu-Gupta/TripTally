@@ -34,10 +34,20 @@ module.exports = __toCommonJS(reviews_exports);
 var import_express = __toESM(require("express"));
 var import_review_svc = __toESM(require("../services/review-svc"));
 const router = import_express.default.Router();
+router.get("/", async (req, res) => {
+  try {
+    const reviews = await import_review_svc.default.getReviews();
+    res.json(reviews);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get reviews" });
+  }
+});
 router.get("/:experienceId", async (req, res) => {
   try {
     const { experienceId } = req.params;
-    const reviews = await import_review_svc.default.getReviewsForExperience(experienceId);
+    const reviews = await import_review_svc.default.getReviewsForExperience(
+      experienceId
+    );
     res.status(200).json(reviews);
   } catch (err) {
     res.status(500).json({ error: `Error fetching reviews for experience: ${err}` });

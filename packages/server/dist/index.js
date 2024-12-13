@@ -26,6 +26,7 @@ var import_experience_svc = __toESM(require("./services/experience-svc"));
 var import_experience = require("./pages/experience");
 var import_experiences = __toESM(require("./routes/experiences"));
 var import_reviews = __toESM(require("./routes/reviews"));
+var import_saved = __toESM(require("./routes/saved"));
 var import_mongo = require("./services/mongo");
 var import_auth = __toESM(require("./routes/auth"));
 var import_pages = require("./pages/index");
@@ -46,6 +47,12 @@ app.get("/register", (req, res) => {
   const page = new import_pages.RegistrationPage();
   res.set("Content-Type", "text/html").send((0, import_pages.renderPage)(import_pages.RegistrationPage.render()));
 });
+app.get("/mapbox", (req, res) => {
+  const token = process.env.MAPBOX_TOKEN;
+  console.log("hello");
+  console.log(token);
+  res.json({ token });
+});
 app.use("/app", (req, res) => {
   const indexHtml = import_path.default.resolve(staticDir, "index.html");
   import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then((html) => res.send(html)).catch((err) => {
@@ -55,6 +62,7 @@ app.use("/app", (req, res) => {
 });
 app.use("/api/experiences", import_experiences.default);
 app.use("/api/reviews", import_reviews.default);
+app.use("/api/saved", import_saved.default);
 app.get("/experience/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -71,5 +79,4 @@ app.get("/experience/:id", async (req, res) => {
   }
 });
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });

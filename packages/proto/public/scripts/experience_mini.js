@@ -206,7 +206,7 @@ export class ExperienceMini extends HTMLElement {
         return res.json();
       })
       .then((data) => {
-        this.clearSlots(); // Clear old slots to prevent duplication
+        this.clearSlots();
         this.renderSlots(data);
         this.form.init = data;
       })

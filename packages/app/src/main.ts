@@ -7,6 +7,8 @@ import { TripHeaderElement } from "./components/trip-header";
 import { LoginPageElement } from "./components/login-page";
 import { RegistrationPageElement } from "./components/register-page";
 import { ExperienceCreateElement } from "./views/experience-create";
+import { MapViewElement } from "./views/map-view";
+import { ProfileViewElement } from "./views/profile-view";
 import { Msg } from "./messages";
 import { Model, init } from "./model";
 import update from "./update";
@@ -33,17 +35,25 @@ const routes = [
     path: "/",
     redirect: "/app",
   },
+  {
+    path: "/app/map",
+    view: () => html`<map-view></map-view>`,
+  },
+  {
+    path: "/app/profile",
+    view: () => html`<profile-view></profile-view>`,
+  },
 ];
 
 class AppElement extends LitElement {
-    render() {
-      return html`<mu-switch></mu-switch>`;
-    }
-
-    connectedCallback() {
-      super.connectedCallback();
-    }
+  render() {
+    return html`<mu-switch></mu-switch>`;
   }
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
+}
 
 define({
   "mu-auth": Auth.Provider,
@@ -60,10 +70,12 @@ define({
   "auth-view": AuthViewElement,
   "register-page": RegistrationPageElement,
   "experience-create": ExperienceCreateElement,
-    "trip-app": AppElement,
-    "mu-store": class AppStore extends Store.Provider<Model, Msg> {
-      constructor() {
-        super(update, init, "blazing:auth");
-      }
+  "profile-view": ProfileViewElement,
+  "map-view": MapViewElement,
+  "trip-app": AppElement,
+  "mu-store": class AppStore extends Store.Provider<Model, Msg> {
+    constructor() {
+      super(update, init, "blazing:auth");
     }
+  },
 });

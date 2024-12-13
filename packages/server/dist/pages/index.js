@@ -35,11 +35,7 @@ module.exports = __toCommonJS(pages_exports);
 __reExport(pages_exports, require("./auth"), module.exports);
 var import_renderPage = __toESM(require("./renderPage"));
 const defaults = {
-  stylesheets: [
-    "/styles/reset.css",
-    "/styles/tokens.css",
-    "/styles/page.css"
-  ],
+  stylesheets: ["/styles/reset.css", "/styles/tokens.css", "/styles/page.css"],
   styles: [],
   scripts: [
     `

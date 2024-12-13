@@ -18,16 +18,23 @@ export class ExperienceCardElement extends LitElement {
       return html`<div class="skeleton-card"></div>`;
     }
 
-    const { id, title, location, category, rating, description, image } =
-      this.experience;
+    const { id, title, location, category, rating, description } = this.experience as {
+      id: string;
+      title: string;
+      location: string;
+      category: "Adventure" | "Cultural" | "Nature and Wildlife" | "Family-Friendly" | "Luxury" | "Budget-Friendly";
+      rating: number;
+      description: string;
+      image: string;
+    };
 
     const categoryColors = {
-      "Adventure": "#FF4500",       // Orange-Red
-      "Cultural": "#8A2BE2",        // Blue-Violet
-      "Nature and Wildlife": "#228B22", // Forest Green
-      "Family-Friendly": "#FFD700", // Golden Yellow
-      "Luxury": "#DAA520",          // Goldenrod
-      "Budget-Friendly": "#4682B4"  // Steel Blue
+      Adventure: "#FF4500",
+      Cultural: "#8A2BE2",
+      "Nature and Wildlife": "#228B22",
+      "Family-Friendly": "#FFD700",
+      Luxury: "#DAA520",
+      "Budget-Friendly": "#4682B4",
     };
 
     return html`
@@ -52,7 +59,7 @@ export class ExperienceCardElement extends LitElement {
           </div>
           <div
             class="category-badge"
-            style="background-color: ${categoryColors[category] || '#CCC'}"
+            style="background-color: ${categoryColors[category] || "#CCC"}"
           >
             ${category}
           </div>
@@ -129,7 +136,7 @@ export class ExperienceCardElement extends LitElement {
 
     .details .description {
       display: -webkit-box;
-      -webkit-line-clamp: 2; /* Limit to 2 lines */
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -150,16 +157,16 @@ export class ExperienceCardElement extends LitElement {
 
     .rating {
       display: flex;
-      align-items: center; /* Ensures stars and number are vertically aligned */
-      gap: var(--space-sm); /* Add space between number and stars */
-      font-size: 1rem; /* Ensure consistent font size */
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 1rem;
       color: var(--text-color);
     }
 
     .rating-value {
-      font-weight: bold; /* Emphasize the numeric rating */
+      font-weight: bold;
       color: var(--primary-color);
-      line-height: 1; /* Ensure the number doesn't affect alignment */
+      line-height: 1;
     }
 
     star-rating {
@@ -167,7 +174,6 @@ export class ExperienceCardElement extends LitElement {
       align-items: center;
       line-height: 1;
     }
-
   `;
 }
 

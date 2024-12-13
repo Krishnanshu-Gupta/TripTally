@@ -154,14 +154,10 @@ export class RegistrationForm extends HTMLElement {
   handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(this._form);
-
-    // Password confirmation check
     if (data.get("password") !== data.get("confirmPassword")) {
       alert("Passwords do not match!");
       return;
     }
-
-    // Post data to the API
     fetch(this.getAttribute("api"), {
       method: "POST",
       headers: {

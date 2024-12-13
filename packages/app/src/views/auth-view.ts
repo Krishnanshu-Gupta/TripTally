@@ -42,12 +42,14 @@ export class AuthViewElement extends View<Model, Msg> {
     if (this.isLogin) {
       const payload = { username: this.username, password: this.password };
       this.dispatchMessage(["auth/login", payload]);
-    }
-    else if (this.password === this.confirmPassword) {
-      const payload = { username: this.username, name: this.name, password: this.password };
+    } else if (this.password === this.confirmPassword) {
+      const payload = {
+        username: this.username,
+        name: this.name,
+        password: this.password,
+      };
       this.dispatchMessage(["auth/register", payload]);
-    }
-    else {
+    } else {
       this.errorMessage = "Passwords do not match!";
     }
   }
@@ -71,20 +73,17 @@ export class AuthViewElement extends View<Model, Msg> {
 
   render() {
     if (this.isAuthenticated) {
-        return html`
-        <main class="page">
-            <div class="auth-container">
-                <p>Welcome, ${this.user?.username}! You are already logged in.</p>
-                <button @click=${this.handleLogout}>Logout</button>
-            </div>
-        </main>`;
+      return html` <main class="page">
+        <div class="auth-container">
+          <p>Welcome, ${this.user?.username}! You are already logged in.</p>
+          <button @click=${this.handleLogout}>Logout</button>
+        </div>
+      </main>`;
     }
     return html`
       <main class="page">
         <div class="auth-container">
-          ${this.isLogin
-            ? this.renderLoginView()
-            : this.renderRegisterView()}
+          ${this.isLogin ? this.renderLoginView() : this.renderRegisterView()}
         </div>
       </main>
     `;
@@ -125,7 +124,9 @@ export class AuthViewElement extends View<Model, Msg> {
         <div class="right">
           <h1>New Here?</h1>
           <p>Create an account to start exploring trips!</p>
-          <button @click=${this.toggleView} class="change-button">Register Now</button>
+          <button @click=${this.toggleView} class="change-button">
+            Register Now
+          </button>
         </div>
       </div>
     `;
@@ -137,7 +138,9 @@ export class AuthViewElement extends View<Model, Msg> {
         <div class="right2">
           <h1>Already a Member?</h1>
           <p>Sign in to continue exploring trips!</p>
-          <button @click=${this.toggleView} class="change-button">Sign In Now</button>
+          <button @click=${this.toggleView} class="change-button">
+            Sign In Now
+          </button>
         </div>
         <div class="left2">
           <div class="form_container">
@@ -175,8 +178,7 @@ export class AuthViewElement extends View<Model, Msg> {
                 type="password"
                 id="confirm-password"
                 .value=${this.confirmPassword}
-                @input=${(e: any) =>
-                  (this.confirmPassword = e.target.value)}
+                @input=${(e: any) => (this.confirmPassword = e.target.value)}
                 required
               />
               <div class="button-wrapper">
@@ -191,7 +193,7 @@ export class AuthViewElement extends View<Model, Msg> {
 
   static styles = css`
     :host {
-        overflow: hidden;
+      overflow: hidden;
     }
 
     .page {
@@ -230,7 +232,7 @@ export class AuthViewElement extends View<Model, Msg> {
     }
 
     .right {
-      font-family: 'Merriweather', serif;
+      font-family: "Merriweather", serif;
       background-color: var(--primary-color);
       color: var(--background-color);
       border-top-right-radius: var(--border-radius);
@@ -239,31 +241,31 @@ export class AuthViewElement extends View<Model, Msg> {
     }
 
     .left h1 {
-        font-size: 1.75rem;
-        margin-bottom: var(--space-md);
-        font-family: 'Merriweather', serif;;
-        font-weight: bold;
+      font-size: 1.75rem;
+      margin-bottom: var(--space-md);
+      font-family: "Merriweather", serif;
+      font-weight: bold;
     }
 
     .left p {
-        font-size: var(--base-font-size);
-        text-align: center;
+      font-size: var(--base-font-size);
+      text-align: center;
     }
 
     .left a {
-        margin-top: var(--space-md);
-        color: var(--background-color);
-        text-decoration: none;
-        font-weight: bold;
-        border: 2px solid var(--background-color);
-        padding: var(--space-sm) var(--space-md);
-        border-radius: var(--border-radius);
-        transition: all 0.3s ease;
+      margin-top: var(--space-md);
+      color: var(--background-color);
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid var(--background-color);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--border-radius);
+      transition: all 0.3s ease;
     }
 
     .left a:hover {
-        background-color: var(--background-color);
-        color: var(--primary-color);
+      background-color: var(--background-color);
+      color: var(--primary-color);
     }
 
     .left2,
@@ -285,8 +287,8 @@ export class AuthViewElement extends View<Model, Msg> {
 
     .right2 {
       width: 40%;
-      flex: 0 0 auto;;
-      font-family: 'Merriweather', serif;
+      flex: 0 0 auto;
+      font-family: "Merriweather", serif;
       background-color: var(--primary-color);
       color: var(--background-color);
       border-top-right-radius: var(--border-radius);
@@ -295,31 +297,31 @@ export class AuthViewElement extends View<Model, Msg> {
     }
 
     .left2 h1 {
-        font-size: 1.75rem;
-        margin-bottom: var(--space-md);
-        font-family: 'Merriweather', serif;;
-        font-weight: bold;
+      font-size: 1.75rem;
+      margin-bottom: var(--space-md);
+      font-family: "Merriweather", serif;
+      font-weight: bold;
     }
 
     .left2 p {
-        font-size: var(--base-font-size);
-        text-align: center;
+      font-size: var(--base-font-size);
+      text-align: center;
     }
 
     .left2 a {
-        margin-top: var(--space-md);
-        color: var(--background-color);
-        text-decoration: none;
-        font-weight: bold;
-        border: 2px solid var(--background-color);
-        padding: var(--space-sm) var(--space-md);
-        border-radius: var(--border-radius);
-        transition: all 0.3s ease;
+      margin-top: var(--space-md);
+      color: var(--background-color);
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid var(--background-color);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--border-radius);
+      transition: all 0.3s ease;
     }
 
     .left2 a:hover {
-        background-color: var(--background-color);
-        color: var(--primary-color);
+      background-color: var(--background-color);
+      color: var(--primary-color);
     }
 
     .form_container form {
@@ -340,7 +342,7 @@ export class AuthViewElement extends View<Model, Msg> {
     }
 
     .button-wrapper {
-        margin: 0px 20px;
+      margin: 0px 20px;
     }
 
     button {
@@ -370,7 +372,7 @@ export class AuthViewElement extends View<Model, Msg> {
     }
 
     .change-button:hover {
-        background-color: var(--accent-color);
+      background-color: var(--accent-color);
     }
 
     .error-message {

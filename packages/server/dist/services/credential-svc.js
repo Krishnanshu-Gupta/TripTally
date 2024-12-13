@@ -41,10 +41,7 @@ const credentialSchema = new import_mongoose.Schema(
   },
   { collection: "user_credentials" }
 );
-const credentialModel = (0, import_mongoose.model)(
-  "Credential",
-  credentialSchema
-);
+const credentialModel = (0, import_mongoose.model)("Credential", credentialSchema);
 function create(username, name, password) {
   return new Promise((resolve, reject) => {
     if (!username || !name || !password) {

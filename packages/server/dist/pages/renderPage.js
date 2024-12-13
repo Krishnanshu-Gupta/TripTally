@@ -29,12 +29,8 @@ function renderPage(unique, defaults) {
     stylesheets: (defaults.stylesheets || []).concat(
       unique.stylesheets || []
     ),
-    styles: (defaults.styles || []).concat(
-      unique.styles || []
-    ),
-    scripts: (defaults.scripts || []).concat(
-      unique.scripts || []
-    ),
+    styles: (defaults.styles || []).concat(unique.styles || []),
+    scripts: (defaults.scripts || []).concat(unique.scripts || []),
     googleFontURL: unique.googleFontURL || defaults.googleFontURL,
     imports: { ...defaults.imports, ...unique.imports }
   };

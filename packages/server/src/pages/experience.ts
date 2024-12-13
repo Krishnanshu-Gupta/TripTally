@@ -18,7 +18,8 @@ export class ExperiencePage {
   }
 
   renderBody() {
-    const { id, title, category, location, rating, user, description } = this.data;
+    const { id, title, category, location, rating, user, description } =
+      this.data;
 
     return html`
       <header>
@@ -40,8 +41,17 @@ export class ExperiencePage {
     const stars = html`
       ${Array(fullStars)
         .fill(0)
-        .map(() => html`<svg class="icon gold"><use href="/icons/sprite.svg#starfill"></use></svg>`)}
-      ${halfStar ? html`<svg class="icon half-star"><use href="/icons/sprite.svg#starfill"></use></svg>` : ""}
+        .map(
+          () =>
+            html`<svg class="icon gold">
+              <use href="/icons/sprite.svg#starfill"></use>
+            </svg>`
+        )}
+      ${halfStar
+        ? html`<svg class="icon half-star">
+            <use href="/icons/sprite.svg#starfill"></use>
+          </svg>`
+        : ""}
     `;
     return stars;
   }

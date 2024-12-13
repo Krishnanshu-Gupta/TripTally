@@ -141,7 +141,7 @@ export class LoginForm extends HTMLElement {
 
     shadow(this)
       .template(LoginForm.template)
-      .styles(reset.styles, headings.styles, tokens.styles, LoginForm.styles); // Include tokens.css styles
+      .styles(reset.styles, headings.styles, tokens.styles, LoginForm.styles);
 
     this.form.addEventListener("submit", (event) =>
       submitLoginForm(

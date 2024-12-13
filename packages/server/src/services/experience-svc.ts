@@ -5,7 +5,7 @@ import { Review } from "../models/review";
 const ReviewSchema = new Schema<Review>(
   {
     id: { type: String, required: true, unique: true },
-    experienceId: { type: String, required: true }, // Store as a string
+    experienceId: { type: String, required: true },
     userID: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     user: { type: String, required: true },
     overallRating: { type: Number, required: true },
@@ -39,14 +39,6 @@ const ExperienceSchema = new Schema<Experience>(
 
 const ExperienceModel = model<Experience>("Experience", ExperienceSchema);
 
-// Helper: Ensure proper type casting of experienceId
-function asObjectIdOrString(value: string | Types.ObjectId): Types.ObjectId | string {
-  return Types.ObjectId.isValid(value) ? new Types.ObjectId(value) : value;
-}
-
-/**
- * Get all experiences with optional filters.
- */
 async function index(filter: Partial<Experience> = {}): Promise<Experience[]> {
   const experiences = await ExperienceModel.find(filter).lean().exec();
   await Promise.all(
@@ -58,9 +50,6 @@ async function index(filter: Partial<Experience> = {}): Promise<Experience[]> {
   })) as Experience[];
 }
 
-/**
- * Get a specific experience by its ID.
- */
 async function getExperience(id: string): Promise<Experience> {
   await updateRatingsAndReviewCount(id);
   const experience = await ExperienceModel.findOne({ id }).lean();
@@ -79,15 +68,12 @@ async function getExperience(id: string): Promise<Experience> {
   } as Experience;
 }
 
-/**
- * Aggregate reviews for a specific experience.
- */
 async function aggregateReviews(experienceId: string): Promise<{
   averageRating: number;
   count: number;
 }> {
   const result = await ReviewModel.aggregate([
-    { $match: { experienceId } }, // Match reviews based on string `experienceId`
+    { $match: { experienceId } },
     {
       $group: {
         _id: "$experienceId",
@@ -100,10 +86,9 @@ async function aggregateReviews(experienceId: string): Promise<{
   return result[0] || { averageRating: 0, count: 0 };
 }
 
-/**
- * Get all reviews for a specific experience.
- */
-async function getReviewsForExperience(experienceId: string): Promise<Review[]> {
+async function getReviewsForExperience(
+  experienceId: string
+): Promise<Review[]> {
   const reviews = await ReviewModel.find({ experienceId })
     .sort({ createdAt: -1 })
     .lean()
@@ -111,24 +96,21 @@ async function getReviewsForExperience(experienceId: string): Promise<Review[]> 
 
   return reviews.map((review) => ({
     ...review,
-    experienceId: review.experienceId, // Already a string
+    experienceId: review.experienceId,
     userID: review.userID.toString(),
   })) as Review[];
 }
 
-/**
- * Create a new experience.
- */
 async function create(json: Experience): Promise<Experience> {
   const experience = new ExperienceModel(json);
   const saved = await experience.save();
   return saved.toObject() as Experience;
 }
 
-/**
- * Update an existing experience by its ID.
- */
-async function update(id: string, experience: Partial<Experience>): Promise<Experience> {
+async function update(
+  id: string,
+  experience: Partial<Experience>
+): Promise<Experience> {
   const updated = await ExperienceModel.findOneAndUpdate({ id }, experience, {
     new: true,
   }).lean();
@@ -143,9 +125,6 @@ async function update(id: string, experience: Partial<Experience>): Promise<Expe
   } as Experience;
 }
 
-/**
- * Remove an experience by its ID.
- */
 async function remove(id: string): Promise<void> {
   const deleted = await ExperienceModel.findOneAndDelete({ id }).exec();
 
@@ -154,10 +133,9 @@ async function remove(id: string): Promise<void> {
   }
 }
 
-/**
- * Update the rating and review count for a specific experience.
- */
-async function updateRatingsAndReviewCount(experienceId: string): Promise<void> {
+async function updateRatingsAndReviewCount(
+  experienceId: string
+): Promise<void> {
   const { averageRating, count } = await aggregateReviews(experienceId);
 
   await ExperienceModel.findOneAndUpdate(
@@ -167,16 +145,19 @@ async function updateRatingsAndReviewCount(experienceId: string): Promise<void> 
   ).exec();
 }
 
-// Middleware: Update ratings and review count after review is saved or deleted
 ReviewSchema.post("save", async function (doc) {
   await updateRatingsAndReviewCount(doc.experienceId);
 });
 
-ReviewSchema.post("deleteOne", { document: true, query: false }, async function (doc) {
-  if (doc) {
-    await updateRatingsAndReviewCount(doc.experienceId);
+ReviewSchema.post(
+  "deleteOne",
+  { document: true, query: false },
+  async function (doc) {
+    if (doc) {
+      await updateRatingsAndReviewCount(doc.experienceId);
+    }
   }
-});
+);
 
 export default {
   index,

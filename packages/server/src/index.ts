@@ -4,29 +4,24 @@ import { ExperiencePage } from "./pages/experience";
 import experiences from "./routes/experiences";
 import reviews from "./routes/reviews";
 import Reviews from "./services/review-svc";
+import Save from "./services/save-svc";
+import saved from "./routes/saved";
 
 import { connect } from "./services/mongo";
 import auth from "./routes/auth";
-import {
-  LoginPage,
-  RegistrationPage,
-  renderPage,
-} from "./pages/index";
+import { LoginPage, RegistrationPage, renderPage } from "./pages/index";
 import fs from "fs/promises";
 import path from "path";
 
-// Connect to the MongoDB database
 connect("experience");
 
 const app = express();
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
 
-// Middleware
 app.use(express.static(staticDir));
 app.use(express.json());
 
-// Authentication routes
 app.use("/api/auth", auth);
 app.get("/login", (req: Request, res: Response) => {
   const page = new LoginPage();
@@ -35,7 +30,9 @@ app.get("/login", (req: Request, res: Response) => {
 
 app.get("/register", (req: Request, res: Response) => {
   const page = new RegistrationPage();
-  res.set("Content-Type", "text/html").send(renderPage(RegistrationPage.render()));
+  res
+    .set("Content-Type", "text/html")
+    .send(renderPage(RegistrationPage.render()));
 });
 
 app.use("/app", (req, res) => {
@@ -48,11 +45,10 @@ app.use("/app", (req, res) => {
     });
 });
 
-// API routes
 app.use("/api/experiences", experiences);
-app.use("/api/reviews", reviews); // Add the reviews route
+app.use("/api/reviews", reviews);
+app.use("/api/saved", saved);
 
-// Experience page route (server-side rendered)
 app.get("/experience/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -70,7 +66,4 @@ app.get("/experience/:id", async (req: Request, res: Response) => {
   }
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+app.listen(port, () => {});

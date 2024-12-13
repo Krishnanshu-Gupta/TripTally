@@ -1,9 +1,12 @@
 import { Experience } from "server/models";
+import { Review } from "server/models";
 
 export interface Model {
+  reviews?: Array<Review>;
   experiences?: Array<Experience>;
   selectedExperience?: Experience;
   experience?: {
+    userID: any;
     id: string;
     user: string;
     title: string;
@@ -17,7 +20,7 @@ export interface Model {
     }>;
   };
   isAuthenticated: boolean;
-  user?: { id: string, name: string, username: string };
+  user?: { id: string; name: string; username: string };
   darkMode: boolean;
 }
 

@@ -26,7 +26,6 @@ const ReviewSchema = new import_mongoose.Schema(
   {
     id: { type: String, required: true, unique: true },
     experienceId: { type: String, required: true },
-    // Store as a string
     userID: { type: import_mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
     user: { type: String, required: true },
     overallRating: { type: Number, required: true },
@@ -55,9 +54,6 @@ const ExperienceSchema = new import_mongoose.Schema(
   { collection: "experiences", timestamps: true }
 );
 const ExperienceModel = (0, import_mongoose.model)("Experience", ExperienceSchema);
-function asObjectIdOrString(value) {
-  return import_mongoose.Types.ObjectId.isValid(value) ? new import_mongoose.Types.ObjectId(value) : value;
-}
 async function index(filter = {}) {
   const experiences = await ExperienceModel.find(filter).lean().exec();
   await Promise.all(
@@ -85,7 +81,6 @@ async function getExperience(id) {
 async function aggregateReviews(experienceId) {
   const result = await ReviewModel.aggregate([
     { $match: { experienceId } },
-    // Match reviews based on string `experienceId`
     {
       $group: {
         _id: "$experienceId",
@@ -101,7 +96,6 @@ async function getReviewsForExperience(experienceId) {
   return reviews.map((review) => ({
     ...review,
     experienceId: review.experienceId,
-    // Already a string
     userID: review.userID.toString()
   }));
 }
@@ -139,11 +133,15 @@ async function updateRatingsAndReviewCount(experienceId) {
 ReviewSchema.post("save", async function(doc) {
   await updateRatingsAndReviewCount(doc.experienceId);
 });
-ReviewSchema.post("deleteOne", { document: true, query: false }, async function(doc) {
-  if (doc) {
-    await updateRatingsAndReviewCount(doc.experienceId);
+ReviewSchema.post(
+  "deleteOne",
+  { document: true, query: false },
+  async function(doc) {
+    if (doc) {
+      await updateRatingsAndReviewCount(doc.experienceId);
+    }
   }
-});
+);
 var experience_svc_default = {
   index,
   getExperience,

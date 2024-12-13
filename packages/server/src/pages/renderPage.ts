@@ -17,20 +17,15 @@ function renderPage(unique: PageParts, defaults: DefaultParts) {
   let parts = !defaults
     ? unique
     : {
-      body,
-      stylesheets: (defaults.stylesheets || []).concat(
-        unique.stylesheets || []
-      ),
-      styles: (defaults.styles || []).concat(
-        unique.styles || []
-      ),
-      scripts: (defaults.scripts || []).concat(
-        unique.scripts || []
-      ),
-      googleFontURL:
-        unique.googleFontURL || defaults.googleFontURL,
-      imports: { ...defaults.imports, ...unique.imports }
-    };
+        body,
+        stylesheets: (defaults.stylesheets || []).concat(
+          unique.stylesheets || []
+        ),
+        styles: (defaults.styles || []).concat(unique.styles || []),
+        scripts: (defaults.scripts || []).concat(unique.scripts || []),
+        googleFontURL: unique.googleFontURL || defaults.googleFontURL,
+        imports: { ...defaults.imports, ...unique.imports },
+      };
 
   return `<!DOCTYPE html>
     <html lang="en">

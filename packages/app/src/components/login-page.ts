@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { property, state } from "lit/decorators.js";
+import { state } from "lit/decorators.js";
 import { define } from "@calpoly/mustang";
 
 export class LoginPageElement extends LitElement {
@@ -15,7 +15,6 @@ export class LoginPageElement extends LitElement {
   handleLogin(event: Event) {
     event.preventDefault();
 
-    // Perform login logic here (e.g., API request)
     fetch("/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -26,7 +25,7 @@ export class LoginPageElement extends LitElement {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.href = "/app"; // Redirect to the main app
+          window.location.href = "/app";
         } else {
           throw new Error("Invalid credentials");
         }
@@ -77,7 +76,6 @@ export class LoginPageElement extends LitElement {
   }
 
   static styles = css`
-    /* Add your CSS styles here */
     .login-page {
       display: flex;
       justify-content: center;

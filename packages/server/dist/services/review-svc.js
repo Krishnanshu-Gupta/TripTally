@@ -22,21 +22,29 @@ __export(review_svc_exports, {
 });
 module.exports = __toCommonJS(review_svc_exports);
 var import_mongoose = require("mongoose");
-const ReviewSchema = new import_mongoose.Schema({
-  experienceId: { type: String, required: true },
-  // Always store experienceId as a string
-  userID: { type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  user: { type: String, required: true },
-  overallRating: { type: Number, required: true },
-  valueForMoney: { type: Number, required: true },
-  accessibility: { type: Number, required: true },
-  uniqueness: { type: Number, required: true },
-  comment: { type: String, trim: true }
-}, { collection: "reviews", timestamps: true });
+const ReviewSchema = new import_mongoose.Schema(
+  {
+    id: { type: String, required: true },
+    experienceId: { type: String, required: true },
+    userID: { type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: String, required: true },
+    overallRating: { type: Number, required: true },
+    valueForMoney: { type: Number, required: true },
+    accessibility: { type: Number, required: true },
+    uniqueness: { type: Number, required: true },
+    comment: { type: String, trim: true }
+  },
+  { collection: "reviews", timestamps: true }
+);
 const ReviewModel = import_mongoose.models.Review || (0, import_mongoose.model)("Review", ReviewSchema);
+async function getReviews() {
+  return await ReviewModel.find().sort({ createdAt: -1 }).exec();
+}
 async function getReviewsForExperience(experienceId) {
   try {
-    const reviews = await ReviewModel.find({ experienceId: String(experienceId) }).sort({ createdAt: -1 }).exec();
+    const reviews = await ReviewModel.find({
+      experienceId: String(experienceId)
+    }).sort({ createdAt: -1 }).exec();
     return reviews;
   } catch (error) {
     console.error("Error fetching reviews:", error);
@@ -44,7 +52,7 @@ async function getReviewsForExperience(experienceId) {
   }
 }
 function getReviewById(reviewId) {
-  return ReviewModel.findById(reviewId).then((review) => {
+  return ReviewModel.findOne({ id: reviewId }).then((review) => {
     if (!review) {
       throw new Error(`Review with ID ${reviewId} not found`);
     }
@@ -55,18 +63,33 @@ function createReview(json) {
   const review = new ReviewModel(json);
   return review.save();
 }
-function updateReview(reviewId, updatedReview) {
-  return ReviewModel.findByIdAndUpdate(reviewId, updatedReview, { new: true }).then((updated) => {
+async function updateReview(reviewId, updatedReview) {
+  try {
+    const updated = await ReviewModel.findOneAndUpdate(
+      { id: reviewId },
+      updatedReview,
+      { new: true }
+    );
     if (!updated) throw new Error(`Review with ID ${reviewId} not updated`);
     return updated;
-  });
+  } catch (error) {
+    console.error(`Error updating review with ID ${reviewId}:`, error);
+    throw error;
+  }
 }
-function deleteReview(reviewId) {
-  return ReviewModel.findByIdAndDelete(reviewId).then((deleted) => {
-    if (!deleted) throw new Error(`Review with ID ${reviewId} not deleted`);
-  });
+async function deleteReview(reviewId) {
+  try {
+    const deleted = await ReviewModel.findOneAndDelete({ id: reviewId });
+    if (!deleted) {
+      throw new Error(`Review with ID ${reviewId} not deleted`);
+    }
+  } catch (error) {
+    console.error(`Error deleting review with ID ${reviewId}:`, error);
+    throw error;
+  }
 }
 var review_svc_default = {
+  getReviews,
   getReviewsForExperience,
   getReviewById,
   createReview,

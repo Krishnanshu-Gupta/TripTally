@@ -21,8 +21,8 @@ export class Stars extends HTMLElement {
     }
 
     .half-star {
-        fill: var(--star-color);
-        clip-path: inset(0 50% 0 0);
+      fill: var(--star-color);
+      clip-path: inset(0 50% 0 0);
     }
   `;
 
@@ -35,7 +35,11 @@ export class Stars extends HTMLElement {
     return ["value"];
   }
 
-  attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
+  attributeChangedCallback(
+    name: string,
+    _oldValue: string | null,
+    newValue: string | null
+  ): void {
     if (name === "value") {
       this.renderStars(parseFloat(newValue || "0"));
     }
@@ -56,28 +60,28 @@ export class Stars extends HTMLElement {
     const emptyStars = 5 - Math.ceil(value);
 
     for (let i = 0; i < fullStars; i++) {
-        starsContainer.innerHTML += `
+      starsContainer.innerHTML += `
           <svg class="icon">
             <use href="/assets/icons/sprite.svg#starfill"></use>
           </svg>
         `;
-      }
+    }
 
-      if (hasHalfStar) {
-        starsContainer.innerHTML += `
+    if (hasHalfStar) {
+      starsContainer.innerHTML += `
           <svg class="icon gold half-star">
             <use href="/assets/icons/sprite.svg#starfill"></use>
           </svg>
         `;
-      }
-      for (let i = 0; i < emptyStars; i++) {
-        starsContainer.innerHTML += `
+    }
+    for (let i = 0; i < emptyStars; i++) {
+      starsContainer.innerHTML += `
           <svg class="icon">
             <use href="/assets/icons/sprite.svg#star"></use>
           </svg>
         `;
-      }
     }
+  }
 }
 
 define({ "star-rating": Stars });
