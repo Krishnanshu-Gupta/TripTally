@@ -19,8 +19,9 @@
   - Location
   - Comprehensive Ratings
   - User Reviews
-- **Save for Later**: Save experiences for future reference directly from the platform by tapping the heart button on the image.
-
+- **Search Experiences**: Search experiences on the main page by their name or location.
+- **Sort Experiences**: Sort experiences by highest rating or by title alphabetically.
+  
 ---
 
 ### ⭐ Dynamic Rating System
@@ -32,10 +33,17 @@
 
 ---
 
-### 📝 User Reviews
+### 📝 User Content
+- **Share an Experience**: 
+  - Submit your own experiences and write your own review.
+  - Edit your experiences at any time, and access them within your profile.
+
+- **Save for Later**: Save experiences for future reference directly from the platform by tapping the heart button on the image.
+
 - **Write and Manage Reviews**: 
   - Submit reviews for any experience.
   - Edit or delete your submitted reviews at any time.
+  - View your reviews within your profile.
 - **Sort Reviews**: Easily sort reviews by overall rating or recency to find the most relevant feedback.
 
 ---
